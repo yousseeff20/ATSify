@@ -49,6 +49,8 @@ public static class DependencyInjection
         services.AddSingleton<IAuthorizationPolicyProvider, ATS.Infrastructure.Authorization.PermissionPolicyProvider>();
         services.AddScoped<IAuthorizationHandler, ATS.Infrastructure.Authorization.PermissionAuthorizationHandler>();
 
+        services.AddSingleton<ITimeProvider, ATS.Infrastructure.Services.SystemTimeProvider>();
+
         return services;
     }
 }

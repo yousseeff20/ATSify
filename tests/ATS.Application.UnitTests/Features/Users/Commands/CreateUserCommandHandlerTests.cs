@@ -2,6 +2,9 @@ using ATS.Application.Common.Interfaces;
 using ATS.Application.Common.Models;
 using ATS.Application.Features.Users.Commands.CreateUser;
 using ATS.Domain.Aggregates.Users;
+using ATS.Domain.Aggregates.Companies;
+using ATS.Domain.Aggregates.Departments;
+using ATS.Domain.Aggregates.Invitations;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -36,6 +39,7 @@ public class CreateUserCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().Be(userId);
         
+        await dbContext.SaveChangesAsync();
         var userInDb = await dbContext.DomainUsers.FirstOrDefaultAsync(u => u.Id == userId);
         userInDb.Should().NotBeNull();
         userInDb!.Email.Should().Be("john@doe.com");
@@ -49,9 +53,16 @@ public class FakeApplicationDbContext(DbContextOptions options) : DbContext(opti
     public DbSet<UserRole> DomainUserRoles => Set<UserRole>();
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
 
+    public DbSet<Company> Companies => Set<Company>();
+    public DbSet<Department> Departments => Set<Department>();
+    public DbSet<Invitation> Invitations => Set<Invitation>();
+    public DbSet<ATS.Domain.Aggregates.Jobs.Job> Jobs => Set<ATS.Domain.Aggregates.Jobs.Job>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Ignore<ATS.Domain.Common.DomainEvent>();
         modelBuilder.Entity<UserRole>().HasKey(x => new { x.UserId, x.RoleId });
         modelBuilder.Entity<RolePermission>().HasKey(x => new { x.RoleId, x.PermissionName });
+        modelBuilder.Entity<ATS.Domain.Aggregates.Jobs.Job>().OwnsOne(x => x.SalaryRange);
     }
 }
