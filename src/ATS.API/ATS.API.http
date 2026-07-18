@@ -1,0 +1,6 @@
+@ATS.API_HostAddress = http://localhost:5200
+
+GET {{ATS.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
