@@ -20,5 +20,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ATS.Domain\ATS.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
 

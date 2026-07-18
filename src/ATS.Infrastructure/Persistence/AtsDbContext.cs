@@ -13,9 +13,15 @@ public class AtsDbContext(DbContextOptions<AtsDbContext> options) : IdentityDbCo
     public DbSet<UserRole> DomainUserRoles => Set<UserRole>();
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
 
+    public DbSet<ATS.Domain.Aggregates.Companies.Company> Companies => Set<ATS.Domain.Aggregates.Companies.Company>();
+    public DbSet<ATS.Domain.Aggregates.Departments.Department> Departments => Set<ATS.Domain.Aggregates.Departments.Department>();
+    public DbSet<ATS.Domain.Aggregates.Invitations.Invitation> Invitations => Set<ATS.Domain.Aggregates.Invitations.Invitation>();
+    public DbSet<ATS.Domain.Aggregates.Jobs.Job> Jobs => Set<ATS.Domain.Aggregates.Jobs.Job>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        builder.Ignore<ATS.Domain.Common.DomainEvent>();
         builder.ApplyConfigurationsFromAssembly(typeof(AtsDbContext).Assembly);
     }
 }

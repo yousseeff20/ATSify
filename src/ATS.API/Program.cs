@@ -53,3 +53,5 @@ app.MapHealthChecks("/live");
 app.MapHealthChecks("/ready");
 
 app.Run();
+
+public partial class Program { }
