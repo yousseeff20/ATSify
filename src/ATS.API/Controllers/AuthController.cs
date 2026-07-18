@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Asp.Versioning;
 using ATS.Application.Features.Authentication.Login;
-using ATS.Application.Features.Authentication.Register;
 
 namespace ATS.API.Controllers;
 
@@ -23,7 +22,7 @@ public class AuthController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Register([FromBody] ATS.Application.Features.Users.Commands.CreateUser.CreateUserCommand command, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(command, cancellationToken);
         if (!result.IsSuccess)

@@ -1,12 +1,18 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ATS.Application.Common.Interfaces;
+using ATS.Domain.Aggregates.Users;
+using ATS.Infrastructure.Identity;
 
 namespace ATS.Infrastructure.Persistence;
 
-public class AtsDbContext(DbContextOptions<AtsDbContext> options) : IdentityDbContext<IdentityUser>(options), IUnitOfWork
+public class AtsDbContext(DbContextOptions<AtsDbContext> options) : IdentityDbContext<ApplicationUser, Microsoft.AspNetCore.Identity.IdentityRole<Guid>, Guid>(options), IUnitOfWork, IApplicationDbContext
 {
+    public DbSet<User> DomainUsers => Set<User>();
+    public DbSet<Role> DomainRoles => Set<Role>();
+    public DbSet<UserRole> DomainUserRoles => Set<UserRole>();
+    public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

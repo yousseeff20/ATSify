@@ -6,6 +6,7 @@ using ATS.Application.Common.Interfaces;
 using ATS.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -18,13 +19,16 @@ public static class DependencyInjection
         services.AddDbContext<AtsDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<AtsDbContext>());
         services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<AtsDbContext>());
 
-        services.AddIdentityCore<IdentityUser>()
+        services.AddIdentityCore<ApplicationUser>()
+            .AddRoles<Microsoft.AspNetCore.Identity.IdentityRole<Guid>>()
             .AddEntityFrameworkStores<AtsDbContext>()
             .AddDefaultTokenProviders();
 
         services.AddScoped<IJwtProvider, JwtProvider>();
+        services.AddScoped<IIdentityService, IdentityService>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -41,6 +45,9 @@ public static class DependencyInjection
                         Encoding.UTF8.GetBytes(configuration["Jwt:Secret"] ?? "SuperSecretKeyReplaceThisInProductionWithLongerKey123!"))
                 };
             });
+
+        services.AddSingleton<IAuthorizationPolicyProvider, ATS.Infrastructure.Authorization.PermissionPolicyProvider>();
+        services.AddScoped<IAuthorizationHandler, ATS.Infrastructure.Authorization.PermissionAuthorizationHandler>();
 
         return services;
     }
