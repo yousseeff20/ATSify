@@ -1,5 +1,6 @@
-using MediatR;
+﻿using MediatR;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Application.Common.Interfaces;
 using ATS.Domain.Enums;
 using FluentValidation;
@@ -43,3 +44,4 @@ public class AcceptInvitationCommandHandler(IApplicationDbContext dbContext, ITi
         return Result.Success();
     }
 }
+

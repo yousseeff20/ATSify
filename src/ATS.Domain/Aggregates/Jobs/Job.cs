@@ -80,18 +80,26 @@ public sealed class Job : AggregateRoot
         DepartmentId = departmentId;
     }
 
-    public void Publish(DateTimeOffset publishedAt)
+    public Result Publish(DateTimeOffset publishedAt)
     {
         if (Status != JobStatus.Draft)
-            throw new InvalidOperationException($"Cannot publish a job from status {Status}. Only Draft jobs can be published.");
+            return Result.Failure($"Cannot publish a job from status {Status}. Only Draft jobs can be published.");
             
         if (!DepartmentId.HasValue)
-            throw new InvalidOperationException("DepartmentId is required to publish a job.");
+            return Result.Failure("DepartmentId is required to publish a job.");
+
+        if (string.IsNullOrWhiteSpace(Title))
+            return Result.Failure("Title is required to publish a job.");
+
+        if (string.IsNullOrWhiteSpace(Description))
+            return Result.Failure("Description is required to publish a job.");
 
         Status = JobStatus.Published;
         PublishedAt = publishedAt;
 
         AddDomainEvent(new JobPublishedEvent(Id));
+
+        return Result.Success();
     }
 
     public void Close(DateTimeOffset closedAt)

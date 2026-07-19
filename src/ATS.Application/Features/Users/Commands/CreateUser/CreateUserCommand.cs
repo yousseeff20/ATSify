@@ -1,5 +1,6 @@
-using MediatR;
+﻿using MediatR;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Application.Common.Interfaces;
 using ATS.Domain.Aggregates.Users;
 using FluentValidation;
@@ -38,3 +39,4 @@ public class CreateUserCommandHandler(IIdentityService identityService, IApplica
         return Result<Guid>.Success(user.Id);
     }
 }
+

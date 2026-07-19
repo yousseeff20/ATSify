@@ -1,5 +1,6 @@
-using ATS.Application.Common.Interfaces;
+﻿using ATS.Application.Common.Interfaces;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Domain.Aggregates.Jobs.ValueObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -52,3 +53,4 @@ public class UpdateJobCommandHandler(IApplicationDbContext context) : IRequestHa
         return Result.Success();
     }
 }
+

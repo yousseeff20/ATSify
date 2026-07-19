@@ -1,4 +1,5 @@
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Application.Features.Jobs.Commands.ArchiveJob;
 using ATS.Application.Features.Jobs.Commands.CloseJob;
 using ATS.Application.Features.Jobs.Commands.CreateJob;
@@ -6,7 +7,7 @@ using ATS.Application.Features.Jobs.Commands.PublishJob;
 using ATS.Application.Features.Jobs.Commands.UpdateJob;
 using ATS.Application.Features.Jobs.Queries;
 using ATS.Application.Features.Jobs.Queries.GetJobById;
-using ATS.Application.Features.Jobs.Queries.GetJobs;
+using ATS.Application.Features.Jobs.Queries.GetCompanyJobs;
 using ATS.Domain.Aggregates.Jobs;
 using ATS.Domain.Constants;
 using MediatR;
@@ -36,7 +37,7 @@ public class JobsController(IMediator mediator) : ControllerBase
         [FromQuery] string sortBy = "CreatedAt",
         [FromQuery] bool sortDescending = true)
     {
-        var query = new GetJobsQuery(
+        var query = new GetCompanyJobsQuery(
             companyId,
             departmentId,
             searchTerm,
@@ -46,7 +47,7 @@ public class JobsController(IMediator mediator) : ControllerBase
             experienceLevel,
             pageNumber,
             pageSize,
-            sortBy,
+            sortBy ?? "CreatedAt",
             sortDescending);
 
         var result = await mediator.Send(query);
@@ -181,3 +182,4 @@ public record UpdateJobRequest(
     decimal SalaryMax,
     string SalaryCurrency,
     Guid? DepartmentId = null);
+

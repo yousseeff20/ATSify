@@ -1,5 +1,6 @@
-using MediatR;
+﻿using MediatR;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Application.Common.Interfaces;
 using ATS.Domain.Aggregates.Users;
 using FluentValidation;
@@ -29,3 +30,4 @@ public class CreateRoleCommandHandler(IApplicationDbContext dbContext) : IReques
         return await Task.FromResult(Result<Guid>.Success(role.Id));
     }
 }
+

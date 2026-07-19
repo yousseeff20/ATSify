@@ -1,5 +1,6 @@
-using ATS.Application.Common.Interfaces;
+﻿using ATS.Application.Common.Interfaces;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Application.Features.Roles.Commands.AssignRolePermissions;
 using ATS.Application.UnitTests.Features.Users.Commands;
 using ATS.Domain.Aggregates.Users;
@@ -41,3 +42,4 @@ public class AssignRolePermissionsCommandHandlerTests
         updatedRole!.RolePermissions.Should().ContainSingle(rp => rp.PermissionName == Permissions.Users.Create);
     }
 }
+

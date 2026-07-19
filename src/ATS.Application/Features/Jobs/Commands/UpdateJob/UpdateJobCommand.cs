@@ -1,4 +1,5 @@
-using ATS.Application.Common.Models;
+﻿using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Domain.Aggregates.Jobs;
 using MediatR;
 
@@ -16,3 +17,4 @@ public record UpdateJobCommand(
     decimal SalaryMax,
     string SalaryCurrency,
     Guid? DepartmentId = null) : IRequest<Result>;
+

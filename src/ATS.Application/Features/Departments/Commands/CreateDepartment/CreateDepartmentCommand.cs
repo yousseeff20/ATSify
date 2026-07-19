@@ -1,5 +1,6 @@
-using MediatR;
+﻿using MediatR;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Application.Common.Interfaces;
 using ATS.Domain.Aggregates.Companies;
 using ATS.Domain.Aggregates.Departments;
@@ -36,3 +37,4 @@ public class CreateDepartmentCommandHandler(IApplicationDbContext dbContext) : I
         return Result<Guid>.Success(department.Id);
     }
 }
+

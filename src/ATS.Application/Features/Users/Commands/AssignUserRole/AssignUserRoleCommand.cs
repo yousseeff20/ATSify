@@ -1,5 +1,6 @@
-using MediatR;
+﻿using MediatR;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Application.Common.Interfaces;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -38,3 +39,4 @@ public class AssignUserRoleCommandHandler(IApplicationDbContext dbContext) : IRe
         return Result.Success();
     }
 }
+

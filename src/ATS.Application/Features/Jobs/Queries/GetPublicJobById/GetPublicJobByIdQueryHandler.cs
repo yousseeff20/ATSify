@@ -1,22 +1,21 @@
-﻿using ATS.Application.Common.Interfaces;
-using ATS.Application.Common.Models;
+using ATS.Application.Common.Interfaces;
 using ATS.Domain.Common;
-using Mapster;
+using ATS.Domain.Aggregates.Jobs;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace ATS.Application.Features.Jobs.Queries.GetJobById;
+namespace ATS.Application.Features.Jobs.Queries.GetPublicJobById;
 
-public class GetJobByIdQueryHandler(IApplicationDbContext context) : IRequestHandler<GetJobByIdQuery, Result<JobDto>>
+public class GetPublicJobByIdQueryHandler(IApplicationDbContext context) : IRequestHandler<GetPublicJobByIdQuery, Result<JobDto>>
 {
-    public async Task<Result<JobDto>> Handle(GetJobByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<JobDto>> Handle(GetPublicJobByIdQuery request, CancellationToken cancellationToken)
     {
         var job = await context.Jobs
             .AsNoTracking()
-            .FirstOrDefaultAsync(j => j.Id == request.JobId, cancellationToken);
+            .FirstOrDefaultAsync(j => j.Id == request.JobId && j.Status == JobStatus.Published, cancellationToken);
 
         if (job == null)
-            return Result<JobDto>.Failure("Job not found.");
+            return Result<JobDto>.Failure("Job not found or not published.");
 
         var dto = new JobDto(
             job.Id,
@@ -40,4 +39,3 @@ public class GetJobByIdQueryHandler(IApplicationDbContext context) : IRequestHan
         return Result<JobDto>.Success(dto);
     }
 }
-

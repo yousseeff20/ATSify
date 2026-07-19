@@ -1,5 +1,6 @@
-using ATS.Application.Common.Interfaces;
+﻿using ATS.Application.Common.Interfaces;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Domain.Aggregates.Jobs;
 using ATS.Domain.Aggregates.Jobs.ValueObjects;
 using MediatR;
@@ -49,3 +50,4 @@ public class CreateJobCommandHandler(IApplicationDbContext context) : IRequestHa
         return Result<Guid>.Success(job.Id);
     }
 }
+

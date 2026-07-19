@@ -1,5 +1,6 @@
-using ATS.Application.Common.Interfaces;
+﻿using ATS.Application.Common.Interfaces;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,3 +23,4 @@ public class ArchiveJobCommandHandler(IApplicationDbContext context) : IRequestH
         return Result.Success();
     }
 }
+

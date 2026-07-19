@@ -1,5 +1,6 @@
 using ATS.Application.Common.Interfaces;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,17 +31,13 @@ public class PublishJobCommandHandler(IApplicationDbContext context, ITimeProvid
         if (!department.IsActive)
             return Result.Failure("Department must be active to publish a job.");
 
-        try
-        {
-            job.Publish(dateTimeProvider.UtcNow);
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Result.Failure(ex.Message);
-        }
+        var result = job.Publish(dateTimeProvider.UtcNow);
+        if (!result.IsSuccess)
+            return result;
 
         await context.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }
 }
+

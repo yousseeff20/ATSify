@@ -1,4 +1,4 @@
-namespace ATS.Application.Common.Models;
+namespace ATS.Domain.Common;
 
 public class Result<T>
 {
