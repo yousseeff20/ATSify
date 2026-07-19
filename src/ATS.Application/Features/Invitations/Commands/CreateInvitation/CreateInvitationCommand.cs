@@ -1,5 +1,6 @@
-using MediatR;
+﻿using MediatR;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Application.Common.Interfaces;
 using ATS.Domain.Aggregates.Invitations;
 using ATS.Domain.Enums;
@@ -64,3 +65,4 @@ public class CreateInvitationCommandHandler(IApplicationDbContext dbContext, ITi
         return Convert.ToBase64String(bytes).Replace("+", "-").Replace("/", "_").TrimEnd('=');
     }
 }
+

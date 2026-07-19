@@ -1,5 +1,6 @@
-using MediatR;
+﻿using MediatR;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Application.Common.Interfaces;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -41,3 +42,4 @@ public class AssignRolePermissionsCommandHandler(IApplicationDbContext dbContext
         return Result.Success();
     }
 }
+

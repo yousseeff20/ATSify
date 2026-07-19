@@ -68,7 +68,7 @@ public class JobTests
     }
 
     [Fact]
-    public void Publish_WithoutDepartment_ShouldThrowException()
+    public void Publish_WithoutDepartment_ShouldReturnFailure()
     {
         // Arrange
         var job = new Job(
@@ -83,10 +83,10 @@ public class JobTests
             _validSalaryRange); // No DepartmentId
 
         // Act
-        Action action = () => job.Publish(DateTimeOffset.UtcNow);
+        var result = job.Publish(DateTimeOffset.UtcNow);
 
         // Assert
-        action.Should().Throw<InvalidOperationException>()
-            .WithMessage("DepartmentId is required to publish a job.");
+        result.IsSuccess.Should().BeFalse();
+        result.ErrorMessage.Should().Contain("DepartmentId is required");
     }
 }

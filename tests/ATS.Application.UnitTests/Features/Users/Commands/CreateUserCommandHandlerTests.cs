@@ -1,5 +1,6 @@
-using ATS.Application.Common.Interfaces;
+﻿using ATS.Application.Common.Interfaces;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Application.Features.Users.Commands.CreateUser;
 using ATS.Domain.Aggregates.Users;
 using ATS.Domain.Aggregates.Companies;
@@ -66,3 +67,4 @@ public class FakeApplicationDbContext(DbContextOptions options) : DbContext(opti
         modelBuilder.Entity<ATS.Domain.Aggregates.Jobs.Job>().OwnsOne(x => x.SalaryRange);
     }
 }
+

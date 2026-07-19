@@ -1,5 +1,6 @@
-using ATS.Application.Common.Interfaces;
+﻿using ATS.Application.Common.Interfaces;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,3 +30,4 @@ public class CloseJobCommandHandler(IApplicationDbContext context, ITimeProvider
         return Result.Success();
     }
 }
+

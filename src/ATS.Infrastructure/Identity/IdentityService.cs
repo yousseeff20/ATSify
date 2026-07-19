@@ -1,5 +1,6 @@
-using ATS.Application.Common.Interfaces;
+﻿using ATS.Application.Common.Interfaces;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using Microsoft.AspNetCore.Identity;
 
 namespace ATS.Infrastructure.Identity;
@@ -35,3 +36,4 @@ public class IdentityService(UserManager<ApplicationUser> userManager) : IIdenti
             : Result.Failure(string.Join("; ", result.Errors.Select(e => e.Description)));
     }
 }
+

@@ -1,5 +1,6 @@
-using MediatR;
+﻿using MediatR;
 using ATS.Application.Common.Models;
+using ATS.Domain.Common;
 using ATS.Application.Common.Interfaces;
 using ATS.Domain.Aggregates.Companies;
 using FluentValidation;
@@ -56,3 +57,4 @@ public class CreateCompanyCommandHandler(IApplicationDbContext dbContext) : IReq
         return str;
     }
 }
+
