@@ -57,7 +57,7 @@ public sealed class Job : AggregateRoot
         AddDomainEvent(new JobCreatedEvent(Id));
     }
 
-    public void Update(
+    public Result Update(
         string title,
         string description,
         EmploymentType employmentType,
@@ -68,7 +68,7 @@ public sealed class Job : AggregateRoot
         Guid? departmentId)
     {
         if (Status == JobStatus.Archived)
-            throw new InvalidOperationException("Cannot update an archived job.");
+            return Result.Failure("Cannot update an archived job.");
             
         Title = title;
         Description = description;
@@ -78,6 +78,8 @@ public sealed class Job : AggregateRoot
         Location = location;
         SalaryRange = salaryRange;
         DepartmentId = departmentId;
+
+        return Result.Success();
     }
 
     public Result Publish(DateTimeOffset publishedAt)
@@ -102,15 +104,17 @@ public sealed class Job : AggregateRoot
         return Result.Success();
     }
 
-    public void Close(DateTimeOffset closedAt)
+    public Result Close(DateTimeOffset closedAt)
     {
         if (Status != JobStatus.Published)
-            throw new InvalidOperationException($"Cannot close a job from status {Status}. Only Published jobs can be closed.");
+            return Result.Failure($"Cannot close a job from status {Status}. Only Published jobs can be closed.");
 
         Status = JobStatus.Closed;
         ClosedAt = closedAt;
 
         AddDomainEvent(new JobClosedEvent(Id));
+
+        return Result.Success();
     }
 
     public void Archive()
